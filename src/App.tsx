@@ -1,7 +1,16 @@
-function App() {
+import Header   from "./Header";
+
+import Home     from "./Home";
+import Network  from "./Network";
+import Setting  from "./Setting";
+
+const App = () => {
     return (
         <>
-            <h1>Hello Balancing Robot ReactJS!</h1>
+            <Header />
+            <Home />
+            <Network />
+            <Setting />
         </>
     );
 }
