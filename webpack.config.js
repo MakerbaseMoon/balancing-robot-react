@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 
 module.exports = {
     mode: 'development',
-    entry: ['./src/index.tsx', './src/App.tsx'],
+    entry: ['./src/index.tsx'],
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: 'bundle.js'
