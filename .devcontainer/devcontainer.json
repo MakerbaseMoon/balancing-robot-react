@@ -1,0 +1,20 @@
+{
+	"name": "Balancing Robot ReactJS",
+	"build": {
+        "dockerfile": "Dockerfile"
+    },
+	"remoteUser": "node",
+	"mounts": [
+		"source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+	],
+	"postCreateCommand": "sudo chown -R node node_modules && yarn install && yarn start",
+	"customizations": {
+		"vscode": {
+            "extensions": [
+                "donjayamanne.githistory",
+                "streetsidesoftware.code-spell-checker",
+				"eamodio.gitlens"
+            ]
+		}
+	}
+}
