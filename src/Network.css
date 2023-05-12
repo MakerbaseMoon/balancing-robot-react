@@ -1,0 +1,9 @@
+.wifi-border {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+}
+
+.wifi-border:hover {
+    background-color: #C2E7FF;
+    border-radius: 20px;
+}
