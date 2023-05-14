@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { CaretUpFill, CaretRightFill, CaretLeftFill, CaretDownFill } from 'react-bootstrap-icons';
+import { CaretUpFill, CaretRightFill, CaretLeftFill, CaretDownFill, CarFront } from 'react-bootstrap-icons';
 
 const Home = () => {
     /**
@@ -17,9 +17,10 @@ const Home = () => {
 
     return (
         <Container className='container'>
-            <Row className='row my-5'></Row>
+            <Row className='row my-5 fs-2'><h2 className='text-center'>創客基地平衡車</h2></Row>
+            <Row><CarFront size={50} className='car'></CarFront></Row>
             <Row className='row my-3 '>
-                <Col className='col d-grid gap-2'>
+                <Col className='col-md-12 d-grid gap-2'>
                     <Button className='btn btn-lg btn-outline-info' 
                             style={{ height: '130px' }}
                             onMouseDown ={ () => { sendCommand(1); } } 
@@ -31,7 +32,7 @@ const Home = () => {
                 </Col>
             </Row>
             <Row className='row my-3'>
-                <Col className='col d-grid gap-2'>
+                <Col className='col-md-6 d-grid gap-2'>
                     <Button className='btn btn-lg btn-outline-info' 
                                 style={{ height: '200px' }}
                                 onMouseDown ={ () => { sendCommand(4); } } 
@@ -41,7 +42,7 @@ const Home = () => {
                         <CaretLeftFill size={100}/>
                     </Button>
                 </Col>
-                <Col className='col d-grid gap-2'>
+                <Col className='col-md-6 d-grid gap-2'>
                     <Button className='btn btn-lg btn-outline-info' 
                                 style={{ height: '200px' }}
                                 onMouseDown ={ () => { sendCommand(3); } } 
@@ -53,7 +54,7 @@ const Home = () => {
                 </Col>
             </Row>
             <Row className='row my-3'>
-                <Col className='col d-grid gap-2'>
+                <Col className='col-md-12 d-grid gap-2'>
                 <Button className='btn btn-lg btn-outline-info' 
                             style={{ height: '130px' }}
                             onMouseDown ={ () => { sendCommand(2); } } 

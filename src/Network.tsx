@@ -59,9 +59,6 @@ const Network = () => {
                     return (
                         <Row key={index} className='row wifi-border justify-content-center py-2 my-3'>
                             <Col className='col'>
-                                <div className="spinner-border" role="status">
-                                    <span className="visually-hidden">Loading...</span>
-                                </div>
                                 <span className='fs-4'>{network.name}</span>
                             </Col>
                             <Col className='col d-grid gap-2 d-md-flex justify-content-md-end'>
@@ -81,7 +78,7 @@ const Network = () => {
                                 <span className='fs-4'>{network.name}</span>
                             </Col>
                             <Col className='col d-grid gap-3 d-md-flex justify-content-md-end'>
-                                { (network.wifi == 0)? <Wifi size={30} /> : (network.wifi == 1)? <Wifi1 size={30} /> : <Wifi2 size={30} /> }
+                                { (network.wifi === 0)? <Wifi size={30} /> : (network.wifi === 1)? <Wifi1 size={30} /> : <Wifi2 size={30} /> }
                                 { (network.lock)? <LockFill size={30} /> : <UnlockFill size={30} /> }
                                 <Button className="btn btn-lg btn-outline-primary" onClick={ () => { newNetwork(index) } }><Clipboard2Plus /> 新增 </Button>
                             </Col>

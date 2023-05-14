@@ -53,8 +53,9 @@ const Setting = () => {
                 settingList.map((setting, index) => {
                     return (
                         <Row key={index} className='row my-5'>
-                            <Col className='col d-grid gap-2'>
-                                <Form>
+                            <Col className='col d-grid gap-2 fs-4'>
+                                {/* <div className="card"> */}
+                                    <Form>
                                     {
                                         setting.list.map((item, index) => {
                                             return (
@@ -77,6 +78,7 @@ const Setting = () => {
                                         </Button>
                                     ) 
                                 }
+                                {/* </div> */}
                             </Col>
                         </Row>
                     );
