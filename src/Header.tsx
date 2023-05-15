@@ -12,7 +12,7 @@ const Header = ( { setBody, sendMessage }: Props ) => {
         <>
             <span onClick={() => {setBody( <Home    sendMessage={sendMessage} /> )}}>Home </span>
             <span onClick={() => {setBody( <Network /> )}}>Network </span>
-            <span onClick={() => {setBody( <Setting /> )}}>Setting </span>
+            <span onClick={() => {setBody( <Setting sendMessage={sendMessage} /> )}}>Setting </span>
         </>
     );
 }

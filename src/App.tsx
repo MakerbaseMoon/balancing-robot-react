@@ -20,8 +20,7 @@ const App = () => {
     
         ws.current.onopen = () => {
             console.log('WebSocket connection established.');
-            if(ws.current)
-                ws.current.send('Hello server!');
+            sendMessage("Hello Server!");
         };
     
         ws.current.onmessage = (event) => {
