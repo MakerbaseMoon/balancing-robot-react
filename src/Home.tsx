@@ -1,31 +1,61 @@
-import axios from 'axios';
+import { useState } from 'react';
 
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import { CaretUpFill, CaretRightFill, CaretLeftFill, CaretDownFill } from 'react-bootstrap-icons';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { CaretUpFill, CaretRightFill, CaretLeftFill, CaretDownFill, ArrowBarUp, ArrowBarDown, ArrowBarLeft, ArrowBarRight } from 'react-bootstrap-icons';
 
-const Home = () => {
-    /**
-     * Send command to ESP32
-     * @param command 0: stop, 1: forward, 2: backward, 3: right, 4: left
-     */
-    const sendCommand = (command: number) => {
-        console.log(`sendCommand[${command}]`);
+type Props = {
+    sendMessage:  (message: string) => void
+}
 
-        // POST /command
-        // axios.post('/command', { command: command });
+const Home = ( { sendMessage }: Props ) => {
+    const [rangeValue1, setRangeValue1] = useState(25);
+    const [rangeValue2, setRangeValue2] = useState(10);
+
+    const sendCommand1 = (command: number) => {
+        command = (command * rangeValue1 * 0.01 ) + 0.5;
+        console.log(`fader1: ${command.toFixed(2)}`);
+        if(command < 0) command = 0;
+        if(command > 1) command = 1;
+        sendMessage(`fader1: ${command.toFixed(2)}`);
+    }
+
+    const sendCommand2 = (command: number) => {
+        command = (command * rangeValue2 * 0.01 ) + 0.5;
+        console.log(`fader2: ${command.toFixed(2)}`);
+        if(command < 0) command = 0;
+        if(command > 1) command = 1;
+        sendMessage(`fader2: ${command.toFixed(2)}`);
+    }
+
+    const rangeChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRangeValue1(parseInt(event.target.value));
+    }
+
+    const rangeChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRangeValue2(parseInt(event.target.value));
     }
 
     return (
         <Container className='container'>
             <Row className='row my-5'></Row>
+            <Row className='row my-3'>
+                <Form.Label className='form-label'>
+                    <ArrowBarUp /> {rangeValue1} % <ArrowBarDown />
+                </Form.Label>
+                <Form.Range className= 'form-range' 
+                            min      = { 0} 
+                            max      = {50} 
+                            value    = {rangeValue1 } 
+                            onChange = {rangeChange1} />
+            </Row>
             <Row className='row my-3 '>
                 <Col className='col d-grid gap-2'>
                     <Button className='btn btn-lg btn-outline-info' 
                             style={{ height: '130px' }}
-                            onMouseDown ={ () => { sendCommand(1); } } 
-                            onMouseUp   ={ () => { sendCommand(0); } }
-                            onTouchStart={ () => { sendCommand(1); } } 
-                            onTouchEnd  ={ () => { sendCommand(0); } } >
+                            onMouseDown  = { () => { sendCommand1(1); } } 
+                            onMouseUp    = { () => { sendCommand1(0); } }
+                            onTouchStart = { () => { sendCommand1(1); } } 
+                            onTouchEnd   = { () => { sendCommand1(0); } } >
                         <CaretUpFill size={100}/>
                     </Button>
                 </Col>
@@ -34,20 +64,20 @@ const Home = () => {
                 <Col className='col d-grid gap-2'>
                     <Button className='btn btn-lg btn-outline-info' 
                                 style={{ height: '200px' }}
-                                onMouseDown ={ () => { sendCommand(4); } } 
-                                onMouseUp   ={ () => { sendCommand(0); } }
-                                onTouchStart={ () => { sendCommand(4); } } 
-                                onTouchEnd  ={ () => { sendCommand(0); } } >
+                                onMouseDown  = { () => { sendCommand2(1); } } 
+                                onMouseUp    = { () => { sendCommand2(0); } }
+                                onTouchStart = { () => { sendCommand2(1); } } 
+                                onTouchEnd   = { () => { sendCommand2(0); } } >
                         <CaretLeftFill size={100}/>
                     </Button>
                 </Col>
                 <Col className='col d-grid gap-2'>
                     <Button className='btn btn-lg btn-outline-info' 
                                 style={{ height: '200px' }}
-                                onMouseDown ={ () => { sendCommand(3); } } 
-                                onMouseUp   ={ () => { sendCommand(0); } }
-                                onTouchStart={ () => { sendCommand(3); } } 
-                                onTouchEnd  ={ () => { sendCommand(0); } } >
+                                onMouseDown  = { () => { sendCommand2(-1); } } 
+                                onMouseUp    = { () => { sendCommand2( 0); } }
+                                onTouchStart = { () => { sendCommand2(-1); } } 
+                                onTouchEnd   = { () => { sendCommand2( 0); } } >
                         <CaretRightFill size={100}/>
                     </Button>
                 </Col>
@@ -56,14 +86,25 @@ const Home = () => {
                 <Col className='col d-grid gap-2'>
                 <Button className='btn btn-lg btn-outline-info' 
                             style={{ height: '130px' }}
-                            onMouseDown ={ () => { sendCommand(2); } } 
-                            onMouseUp   ={ () => { sendCommand(0); } }
-                            onTouchStart={ () => { sendCommand(2); } } 
-                            onTouchEnd  ={ () => { sendCommand(0); } } >
+                            onMouseDown  = { () => { sendCommand1(-1); } } 
+                            onMouseUp    = { () => { sendCommand1( 0); } }
+                            onTouchStart = { () => { sendCommand1(-1); } } 
+                            onTouchEnd   = { () => { sendCommand1( 0); } } >
                         <CaretDownFill size={100}/>
                     </Button>
                 </Col>
             </Row>
+            <Row className='row my-3'>
+                <Form.Range className = 'form-range' 
+                            min       = { 0} 
+                            max       = {50} 
+                            value     = {rangeValue2 } 
+                            onChange  = {rangeChange2} />
+                <Form.Label className = 'form-label'>
+                    <ArrowBarLeft /> {rangeValue2} % <ArrowBarRight />
+                </Form.Label>
+            </Row>
+            <Row className='row my-3'></Row>
         </Container>
     );
 }
