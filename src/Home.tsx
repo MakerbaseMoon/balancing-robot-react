@@ -36,8 +36,8 @@ const Home = ( { sendMessage }: Props ) => {
     }
 
     return (
-        <Container className='container'>
-            <Row className='row my-5 fs-2'><h2 className='text-center'>創客基地平衡車</h2></Row>
+        <Container fluid="md" className="container-fluid">
+            <Row className='row mt-3 fs-2'><h2 className='text-center'>創客基地平衡車</h2></Row>
             <Row className='row my-3'>
                 <Form.Label className='form-label'>
                     <ArrowBarUp /> {rangeValue1} % <ArrowBarDown />
@@ -94,7 +94,7 @@ const Home = ( { sendMessage }: Props ) => {
                     </Button>
                 </Col>
             </Row>
-            <Row className='row my-3'>
+            <Row className='row my-3 mb-5'>
                 <Form.Range className = 'form-range' 
                             min       = { 0} 
                             max       = {50} 
@@ -104,7 +104,6 @@ const Home = ( { sendMessage }: Props ) => {
                     <ArrowBarLeft /> {rangeValue2} % <ArrowBarRight />
                 </Form.Label>
             </Row>
-            <Row className='row my-3'></Row>
         </Container>
     );
 }

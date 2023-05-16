@@ -1,9 +1,7 @@
 .shadow {
+    background-color: #FFFFFF;
+    border-radius: 20px;
     animation: shadow-drop-2-center 1s;
-}
-
-.content-height { 
-    height: 85vh;
 }
 
 @-webkit-keyframes shadow-drop-2-center {

@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 import Header   from "./Header";
 import Home     from "./Home";
 
+import './App.css'
+
 const App = () => {
     const ws = useRef( null as WebSocket | null);
 
@@ -15,7 +17,7 @@ const App = () => {
     const [body, setBody] = useState( <Home sendMessage={sendMessage} /> );
 
     const connectWebSocket = () => {
-        ws.current = new WebSocket('ws://192.168.0.71/ws');
+        ws.current = new WebSocket('ws://192.168.216.149/ws');
         console.log('Connecting to WebSocket...');
     
         ws.current.onopen = () => {
@@ -44,19 +46,18 @@ const App = () => {
     }, []);
 
     return (
-        <>
+        <div className='d-flex flex-column vh-100'>
             <Header setBody={setBody} sendMessage={sendMessage}/>
-            <div className="container-fluid content-height">
-                <div className="row align-items-center content-height">
-                    <div className="col-lg-3 col-3 d-none d-lg-block bg-0"></div>
-                    <div className="col-lg-6 col-12 shadow">
+            <div className="container-fluid h-100">
+                <div className="row align-items-center h-100">
+                    <div className="col-lg-3 col-3 d-none d-md-block bg-0"></div>
+                    <div className="col-lg-6 col-12 col-sm-12 shadow">
                         {body}
                     </div>
-                    <div className="col-lg-3 col-3 d-none d-lg-block bg-0"></div>
+                    <div className="col-lg-3 col-3 d-none d-md-block bg-0"></div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
-
 export default App;

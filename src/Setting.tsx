@@ -55,7 +55,7 @@ const Setting = ( { sendMessage }: Props ) => {
     }
 
     return (
-        <Container className='container'>
+        <Container fluid="md" className="container-fluid">
             <Row className='row my-5'>
                 <Button className='btn btn-lg btn-outline-info' onClick={btnClick}>unLock</Button>
             </Row>

@@ -53,17 +53,19 @@ const Network = () => {
     }
 
     return (
-        <Container className="container">
+        <Container fluid="md" className="container-fluid">
             {
                 networks.map((network, index) => {
                     return (
-                        <Row key={index} className='row wifi-border justify-content-center py-2 my-3'>
+                        <Row key={index} className='row wifi-border align-items-center justify-content-center py-2 my-3'>
                             <Col className='col'>
                                 <span className='fs-4'>{network.name}</span>
                             </Col>
                             <Col className='col d-grid gap-2 d-md-flex justify-content-md-end'>
-                                <Button className="btn btn-lg btn-outline-secondary" onClick={ () => { editNetwork(index) } }><Clipboard2Pulse /> 修改 </Button>
-                                <Button className="btn btn-lg btn-outline-danger"    onClick={ () => {  delNetwork(index) } }><Trash3 /> 刪除 </Button>
+                                <div className='ms-auto'>
+                                    <Button className="btn btn-lg btn-outline-secondary m-2" onClick={ () => { editNetwork(index) } }><Clipboard2Pulse /> 修改 </Button>
+                                    <Button className="btn btn-lg btn-outline-danger m-2"    onClick={ () => {  delNetwork(index) } }><Trash3 /> 刪除 </Button>
+                                </div>
                             </Col>
                         </Row> 
                     );
@@ -73,14 +75,16 @@ const Network = () => {
             {
                 unknownNetworks.map((network, index) => {
                     return (
-                        <Row key={index} className='row wifi-border justify-content-center py-2 my-3'>
+                        <Row key={index} className='row wifi-border align-items-center justify-content-center py-2 my-3'>
                             <Col className='col'>
                                 <span className='fs-4'>{network.name}</span>
                             </Col>
-                            <Col className='col d-grid gap-3 d-md-flex justify-content-md-end'>
-                                { (network.wifi === 0)? <Wifi size={30} /> : (network.wifi === 1)? <Wifi1 size={30} /> : <Wifi2 size={30} /> }
-                                { (network.lock)? <LockFill size={30} /> : <UnlockFill size={30} /> }
-                                <Button className="btn btn-lg btn-outline-primary" onClick={ () => { newNetwork(index) } }><Clipboard2Plus /> 新增 </Button>
+                            <Col className='col d-grid gap-3 me-auto d-md-flex justify-content-md-end'>
+                                <div className='ms-auto'>
+                                    { (network.wifi === 0)? <Wifi size={30} className='mx-3 mt-2' /> : (network.wifi === 1)? <Wifi1 size={30} className='mx-3 mt-2' /> : <Wifi2 size={30} className='mx-3 mt-2'  /> }
+                                    { (network.lock)? <LockFill size={30} className='mx-3'  /> : <UnlockFill size={30} className='mx-3' /> }
+                                    <Button className="btn btn-lg btn-outline-primary m-2" onClick={ () => { newNetwork(index) } }><Clipboard2Plus /> 新增 </Button>
+                                </div>
                             </Col>
                         </Row>
                     );
