@@ -1,6 +1,10 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const HtmlWebpackPlugin     = require('html-webpack-plugin');
+const TerserPlugin          = require('terser-webpack-plugin');
+const MiniCssExtractPlugin  = require('mini-css-extract-plugin');
+
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const { PurgeCSSPlugin } = require('purgecss-webpack-plugin');
 const glob = require('glob');
@@ -16,6 +20,22 @@ module.exports = {
     },
     resolve: {
         extensions: [".tsx", ".ts", ".js", ".jsx"]
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin(),
+            new CssMinimizerPlugin({
+            minimizerOptions: {
+                preset: [
+                    'default',
+                    {
+                        discardComments: { removeAll: true },
+                    },
+                ],
+            },
+            }),
+        ],
     },
     module: {
         rules: [
