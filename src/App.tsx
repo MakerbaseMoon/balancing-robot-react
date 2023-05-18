@@ -14,10 +14,10 @@ const App = () => {
         }
     };
 
-    const [body, setBody] = useState( <Home sendMessage={sendMessage} /> );
+    const [body, setBody] = useState( null as JSX.Element | null );
 
     const connectWebSocket = () => {
-        ws.current = new WebSocket('ws://192.168.216.149/ws');
+        ws.current = new WebSocket('ws://192.168.181.149/ws');
         console.log('Connecting to WebSocket...');
     
         ws.current.onopen = () => {
