@@ -21,8 +21,7 @@ const App = () => {
     const [body, setBody] = useState( null as JSX.Element | null );
 
     const connectWebSocket = () => {
-        const host: string = "192.168.181.149";
-        // const host: string = window.location.hostname;
+        const host: string = window.location.hostname;
         console.log(`Connecting to ${host}...`);
 
         ws.current = new WebSocket(`ws://${host}/ws`);
