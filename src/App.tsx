@@ -6,6 +6,10 @@ import Home     from "./Home";
 import './App.css'
 
 const App = () => {
+    const [ networks, setNetworks ] = useState( [ ] );
+
+    const [ unknownNetworks, setUnknownNetworks ] = useState( [ ] );
+
     const ws = useRef( null as WebSocket | null);
 
     const sendMessage = (message: string) => {
@@ -17,7 +21,11 @@ const App = () => {
     const [body, setBody] = useState( null as JSX.Element | null );
 
     const connectWebSocket = () => {
-        ws.current = new WebSocket('ws://192.168.181.149/ws');
+        const host: string = "192.168.181.149";
+        // const host: string = window.location.hostname;
+        console.log(`Connecting to ${host}...`);
+
+        ws.current = new WebSocket(`ws://${host}/ws`);
         console.log('Connecting to WebSocket...');
     
         ws.current.onopen = () => {
@@ -27,6 +35,17 @@ const App = () => {
     
         ws.current.onmessage = (event) => {
             console.log('Received message:', event.data);
+            try {
+                const data = JSON.parse(event.data);
+                if(data.title === 'WiFi scan') {
+                    setUnknownNetworks(data.list);
+                } else if(data.title === 'WiFi save') {
+                    setNetworks(data.list);
+                }
+
+            } catch (error) {
+                console.log("Error:", error);
+            }
         };
     
         ws.current.onclose = () => {
@@ -47,7 +66,7 @@ const App = () => {
 
     return (
         <div className='d-flex flex-column vh-100'>
-            <Header setBody={setBody} sendMessage={sendMessage}/>
+            <Header setBody={setBody} sendMessage={sendMessage} networks={networks} unknownNetworks={unknownNetworks} />
             <div className="container-fluid h-100">
                 <div className="row align-items-center h-100">
                     <div className="col-lg-3 col-3 d-none d-md-block bg-0"></div>

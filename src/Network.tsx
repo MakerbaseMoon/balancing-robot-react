@@ -6,40 +6,12 @@ import { Trash3, Clipboard2Pulse, Clipboard2Plus, LockFill, UnlockFill, Wifi, Wi
 
 import './Network.css';
 
-const Network = () => {
-    const [ networks, setNetworks ] = useState( [
-        { name: "Network 1" },
-        { name: "Network 2" },
-        { name: "Network 3" },
-    ] );
-    const [ unknownNetworks, setUnknownNetworks ] = useState( [
-        { name: "Network 4", wifi: 0, lock: false },
-        { name: "Network 5", wifi: 2, lock: false },
-        { name: "Network 6", wifi: 1, lock: false },
-        { name: "Network 7", wifi: 2, lock: false },
-        { name: "Network 8", wifi: 1, lock: true  },
-    ] );
+type Props = {
+    networks: {  ssid: string; }[];
+    unknownNetworks: { ssid: string; rssi: number; encryption: number; }[];
+}
 
-    const getNetworkList = async() => {
-        try {
-            const res = await axios.post('/network/list');
-            console.log(res.data);
-            setNetworks(res.data);
-        } catch(error) {
-            console.log(error);
-        }
-    }
-
-    const getUnknownNetworkList = async() => {
-        try {
-            const res = await axios.post('/network/unknown/list');
-            console.log(res.data);
-            setNetworks(res.data);
-        } catch(error) {
-            console.log(error);
-        }
-    }
-    
+const Network = ( { networks, unknownNetworks }: Props ) => {
     const delNetwork = (index: number) => {
         console.log(`delNetwork[${index}]:`, networks[index]);
     }
@@ -59,7 +31,7 @@ const Network = () => {
                     return (
                         <Row key={index} className='row wifi-border align-items-center justify-content-center py-2 my-3'>
                             <Col className='col'>
-                                <span className='fs-4'>{network.name}</span>
+                                <span className='fs-4'>{network.ssid}</span>
                             </Col>
                             <Col className='col d-grid gap-2 d-md-flex justify-content-md-end'>
                                 <div className='ms-auto'>
@@ -77,12 +49,12 @@ const Network = () => {
                     return (
                         <Row key={index} className='row wifi-border align-items-center justify-content-center py-2 my-3'>
                             <Col className='col'>
-                                <span className='fs-4'>{network.name}</span>
+                                <span className='fs-4'>{network.ssid}</span>
                             </Col>
                             <Col className='col d-grid gap-3 me-auto d-md-flex justify-content-md-end'>
                                 <div className='ms-auto'>
-                                    { (network.wifi === 0)? <Wifi size={30} className='mx-3 mt-2' /> : (network.wifi === 1)? <Wifi1 size={30} className='mx-3 mt-2' /> : <Wifi2 size={30} className='mx-3 mt-2'  /> }
-                                    { (network.lock)? <LockFill size={30} className='mx-3'  /> : <UnlockFill size={30} className='mx-3' /> }
+                                    { (network.rssi > -70)? <Wifi size={30} className='mx-3 mt-2' /> : (network.rssi > -80)? <Wifi2 size={30} className='mx-3 mt-2'  /> : <Wifi1 size={30} className='mx-3 mt-2' /> }
+                                    { (network.encryption < 3)? <LockFill size={30} className='mx-3'  /> : <UnlockFill size={30} className='mx-3' /> }
                                     <Button className="btn btn-lg btn-outline-primary m-2" onClick={ () => { newNetwork(index) } }><Clipboard2Plus /> 新增 </Button>
                                 </div>
                             </Col>
