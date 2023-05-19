@@ -34,7 +34,7 @@ const Home = ( { sendMessage }: Props ) => {
     const rangeChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRangeValue2(parseInt(event.target.value));
     }
-
+    
     return (
         <Container fluid="md" className="container-fluid">
             <Row className='row mt-3 fs-2'><h2 className='text-center'>創客基地平衡車</h2></Row>
@@ -42,7 +42,7 @@ const Home = ( { sendMessage }: Props ) => {
                 <Form.Label className='form-label'>
                     <ArrowBarUp /> {rangeValue1} % <ArrowBarDown />
                 </Form.Label>
-                <Form.Range className= 'form-range' 
+                <Form.Range className= 'form-range'
                             min      = { 0} 
                             max      = {50} 
                             value    = {rangeValue1 } 
@@ -50,7 +50,7 @@ const Home = ( { sendMessage }: Props ) => {
             </Row>
             <Row className='row my-3 '>
                 <Col className='col-md-12 d-grid gap-2'>
-                    <Button className='btn btn-lg btn-outline-info' 
+                    <Button variant="outline-info" className='btn btn-lg btn-outline-info' 
                             style={{ height: '130px' }}
                             onMouseDown  = { () => { sendCommand1(1); } } 
                             onMouseUp    = { () => { sendCommand1(0); } }
@@ -62,7 +62,7 @@ const Home = ( { sendMessage }: Props ) => {
             </Row>
             <Row className='row my-3'>
                 <Col className='col-md-6 d-grid gap-2'>
-                    <Button className='btn btn-lg btn-outline-info' 
+                    <Button variant="outline-info" className='btn btn-lg btn-outline-info' 
                                 style={{ height: '200px' }}
                                 onMouseDown  = { () => { sendCommand2(1); } } 
                                 onMouseUp    = { () => { sendCommand2(0); } }
@@ -72,7 +72,7 @@ const Home = ( { sendMessage }: Props ) => {
                     </Button>
                 </Col>
                 <Col className='col-md-6 d-grid gap-2'>
-                    <Button className='btn btn-lg btn-outline-info' 
+                    <Button variant="outline-info" className='btn btn-lg btn-outline-info' 
                                 style={{ height: '200px' }}
                                 onMouseDown  = { () => { sendCommand2(-1); } } 
                                 onMouseUp    = { () => { sendCommand2( 0); } }
@@ -84,7 +84,7 @@ const Home = ( { sendMessage }: Props ) => {
             </Row>
             <Row className='row my-3'>
                 <Col className='col-md-12 d-grid gap-2'>
-                <Button className='btn btn-lg btn-outline-info' 
+                    <Button variant="outline-info" className='btn btn-lg btn-outline-info' 
                             style={{ height: '130px' }}
                             onMouseDown  = { () => { sendCommand1(-1); } } 
                             onMouseUp    = { () => { sendCommand1( 0); } }

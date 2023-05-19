@@ -50,11 +50,11 @@ const App = () => {
             <Header setBody={setBody} sendMessage={sendMessage}/>
             <div className="container-fluid h-100">
                 <div className="row align-items-center h-100">
-                    <div className="col-lg-3 col-3 d-none d-md-block bg-0"></div>
-                    <div className="col-lg-6 col-12 col-sm-12 shadow">
+                    <div className="col-lg-2 col-3 d-none d-md-block bg-0"></div>
+                    <div className="col-lg-8 col-12  shadow">
                         {body}
                     </div>
-                    <div className="col-lg-3 col-3 d-none d-md-block bg-0"></div>
+                    <div className="col-lg-2 col-3 d-none d-md-block bg-0"></div>
                 </div>
             </div>
         </div>
