@@ -23,8 +23,29 @@ const Network = ( { networks, unknownNetworks }: Props ) => {
 
     return (
         <Container fluid="md" className="container-fluid">
-            {
-                networks.map((network, index) => {
+            {   
+                networks.length <= 0 ?
+                ["", "", ""].map((item, index) => {
+                    return (
+                        <Row key={index} className='row wifi-border align-items-center justify-content-center py-2 my-3'>
+                            <Col className='col'>
+                                <span className='fs-4'>
+                                    <div className="spinner-grow" role="status"><span className="visually-hidden">Loading...</span></div> Loading...
+                                </span>
+                            </Col>
+                            <Col className='col d-grid gap-2 d-md-flex justify-content-md-end'>
+                                <div className='ms-auto'>
+                                    <Button className="btn btn-lg btn-outline-secondary m-2" onClick={ () => { editNetwork(index) } }>
+                                        <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Loading...
+                                    </Button>
+                                    <Button className="btn btn-lg btn-outline-danger m-2"    onClick={ () => {  delNetwork(index) } }>
+                                        <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Loading...
+                                    </Button>
+                                </div>
+                            </Col>
+                        </Row>
+                    );
+                }) : networks.map((network, index) => {
                     return (
                         <Row key={index} className='row wifi-border align-items-center justify-content-center py-2 my-3'>
                             <Col className='col'>
@@ -42,7 +63,27 @@ const Network = ( { networks, unknownNetworks }: Props ) => {
             }
             <hr />
             {
-                unknownNetworks.map((network, index) => {
+                unknownNetworks.length <= 0 ?
+                ["", "", "", "", ""].map((network, index) => {
+                    return (
+                        <Row key={index} className='row wifi-border align-items-center justify-content-center py-2 my-3'>
+                            <Col className='col'>
+                                <span className='fs-4'>
+                                        <div className="spinner-grow" role="status"><span className="visually-hidden">Loading...</span></div> Loading...
+                                </span>
+                            </Col>
+                            <Col className='col d-grid gap-3 me-auto d-md-flex justify-content-md-end'>
+                                <div className='ms-auto'>
+                                    {/* <div className="spinner-grow" role="status"><span className="visually-hidden">Loading...</span></div> */}
+                                    {/* <div className="spinner-grow" role="status"><span className="visually-hidden">Loading...</span></div> */}
+                                    <Button className="btn btn-lg btn-outline-primary m-2" onClick={ () => { newNetwork(index) } }>
+                                        <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Loading...
+                                    </Button>
+                                </div>
+                            </Col>
+                        </Row>
+                    )
+                }) : unknownNetworks.map((network, index) => {
                     return (
                         <Row key={index} className='row wifi-border align-items-center justify-content-center py-2 my-3'>
                             <Col className='col'>
