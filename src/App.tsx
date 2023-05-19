@@ -1,24 +1,29 @@
 import { useState, useEffect, useRef } from 'react';
 
 import Header   from "./Header";
+import Network  from "./Network";
 
 import './App.css'
 
 const App = () => {
-    const [ networks, setNetworks ] = useState( [ ] );
+    // Body Component
+    const [body, setBody] = useState( null as JSX.Element | null );
 
+    // Network Component
+    const [ networks, setNetworks ] = useState( [ ] );
     const [ unknownNetworks, setUnknownNetworks ] = useState( [ ] );
 
+    // Websocket
     const ws = useRef( null as WebSocket | null);
 
+    // WebSocket send message to ESP32 Server
     const sendMessage = (message: string) => {
         if (ws.current && ws.current.readyState === WebSocket.OPEN) {
             ws.current.send(message);
         }
     };
 
-    const [body, setBody] = useState( null as JSX.Element | null );
-
+    // Websocket Event
     const connectWebSocket = () => {
         const host: string = window.location.hostname;
         ws.current = new WebSocket(`ws://${host}/ws`);
@@ -57,6 +62,12 @@ const App = () => {
             }
         };
     }, []);
+
+    useEffect(() => {
+        if(window.location.hash === "#network") {
+            setBody(<Network networks={networks} unknownNetworks={unknownNetworks} />);
+        }
+    }, [networks, unknownNetworks]);
 
     return (
         <div className='d-flex flex-column vh-100'>
