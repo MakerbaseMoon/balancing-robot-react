@@ -60,7 +60,7 @@ const App = () => {
                 ws.current.close();
             }
         };
-    }, [connectWebSocket]);
+    }, []);
 
     return (
         <div className='d-flex flex-column vh-100'>
