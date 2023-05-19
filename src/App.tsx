@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
 import Header   from "./Header";
-import Home     from "./Home";
 
 import './App.css'
 
@@ -61,7 +60,7 @@ const App = () => {
                 ws.current.close();
             }
         };
-    }, []);
+    }, [connectWebSocket]);
 
     return (
         <div className='d-flex flex-column vh-100'>
@@ -78,4 +77,5 @@ const App = () => {
         </div>
     );
 }
+
 export default App;
