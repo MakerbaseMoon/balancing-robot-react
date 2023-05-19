@@ -21,14 +21,10 @@ const App = () => {
 
     const connectWebSocket = () => {
         const host: string = window.location.hostname;
-        console.log(`Connecting to ${host}...`);
-
         ws.current = new WebSocket(`ws://${host}/ws`);
-        console.log('Connecting to WebSocket...');
     
         ws.current.onopen = () => {
-            console.log('WebSocket connection established.');
-            sendMessage("Hello Server!");
+            console.log('WebSocket connection connected.');
         };
     
         ws.current.onmessage = (event) => {
