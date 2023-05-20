@@ -11,7 +11,7 @@ import './Header.css'
 type Props = {
     setBody: React.Dispatch<React.SetStateAction<JSX.Element | null >>;
     sendMessage: (message: string) => void;
-    networks: {  ssid: string; }[];
+    networks: { ssid: string; }[];
     unknownNetworks: { ssid: string; rssi: number; encryption: number; }[];
 }
 

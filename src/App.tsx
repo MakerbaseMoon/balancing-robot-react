@@ -7,14 +7,14 @@ import './App.css'
 
 const App = () => {
     // Body Component
-    const [body, setBody] = useState( null as JSX.Element | null );
+    const [body, setBody] = useState< JSX.Element | null >( null );
 
     // Network Component
-    const [ networks, setNetworks ] = useState( [ ] );
-    const [ unknownNetworks, setUnknownNetworks ] = useState( [ ] );
+    const [ networks, setNetworks ] = useState< { ssid: string; }[] >( [] );
+    const [ unknownNetworks, setUnknownNetworks ] = useState< { ssid: string; rssi: number; encryption: number; }[] >( [] );
 
     // Websocket
-    const ws = useRef( null as WebSocket | null);
+    const ws = useRef< WebSocket | null >( null );
 
     // WebSocket send message to ESP32 Server
     const sendMessage = (message: string) => {
