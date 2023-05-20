@@ -16,7 +16,7 @@ const Home = ( { sendMessage }: Props ) => {
         console.log(`fader1: ${command.toFixed(2)}`);
         if(command < 0) command = 0;
         if(command > 1) command = 1;
-        sendMessage(`fader1: ${command.toFixed(2)}`);
+        sendMessage(JSON.stringify({ fader1: parseFloat(command.toFixed(2)) }));
     }
 
     const sendCommand2 = (command: number) => {
@@ -24,7 +24,7 @@ const Home = ( { sendMessage }: Props ) => {
         console.log(`fader2: ${command.toFixed(2)}`);
         if(command < 0) command = 0;
         if(command > 1) command = 1;
-        sendMessage(`fader2: ${command.toFixed(2)}`);
+        sendMessage(JSON.stringify({ fader2: parseFloat(command.toFixed(2)) }));
     }
 
     const rangeChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
