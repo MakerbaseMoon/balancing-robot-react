@@ -3,22 +3,36 @@ import { useState, useRef } from 'react';
 import { Container, Row, Button, Form } from 'react-bootstrap';
 
 type Props = {
-    sendMessage:  (message: string) => void
+    sendMessage:  (message: string) => void;
+    range_t: {
+        rangeValue1: number;
+        setRangeValue1: React.Dispatch<React.SetStateAction<number>>;
+        rangeValue2: number;
+        setRangeValue2: React.Dispatch<React.SetStateAction<number>>;
+        rangeValue3: number;
+        setRangeValue3: React.Dispatch<React.SetStateAction<number>>;
+        rangeValue4: number;
+        setRangeValue4: React.Dispatch<React.SetStateAction<number>>;
+    };
 }
 
-const Setting = ( { sendMessage }: Props ) => {
-    const [rangeValue1, setRangeValue1] = useState(0);
-    const [rangeValue2, setRangeValue2] = useState(0);
-    const [rangeValue3, setRangeValue3] = useState(0);
-    const [rangeValue4, setRangeValue4] = useState(0);
+const Setting = ( { sendMessage, range_t }: Props ) => {
+    const { rangeValue1, setRangeValue1, rangeValue2, setRangeValue2, 
+            rangeValue3, setRangeValue3, rangeValue4, setRangeValue4 } = range_t;
 
     const [rangeDisable, setRangeDisable] = useState( true );
 
     const btnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         if(rangeDisable) {
             event.currentTarget.innerText = 'Lock';
+            event.currentTarget.classList.remove('btn-outline-info');
+            event.currentTarget.classList.add('btn-outline-warning');
+
         } else{
             event.currentTarget.innerText = 'unLock';
+            event.currentTarget.classList.remove('btn-outline-warning');
+            event.currentTarget.classList.add('btn-outline-info');
+            // sendMessage('Save');
         }
 
         setRangeDisable(!rangeDisable);
@@ -49,8 +63,8 @@ const Setting = ( { sendMessage }: Props ) => {
         clearTimeout(timerRef.current);
 
         timerRef.current = setTimeout(() => {
-            const value = 0.5 + 0.005 * newValue;
-            sendMessage(`${event.target.id}: ${value.toFixed(2)}`);
+            const value: number = 0.5 + 0.005 * newValue;
+            sendMessage(JSON.stringify({ [event.target.id]: parseFloat(value.toFixed(2)) }));
         }, 50);
     }
 

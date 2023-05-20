@@ -13,9 +13,19 @@ type Props = {
     sendMessage: (message: string) => void;
     networks: { ssid: string; }[];
     unknownNetworks: { ssid: string; rssi: number; encryption: number; }[];
+    range_t: {
+        rangeValue1: number;
+        setRangeValue1: React.Dispatch<React.SetStateAction<number>>;
+        rangeValue2: number;
+        setRangeValue2: React.Dispatch<React.SetStateAction<number>>;
+        rangeValue3: number;
+        setRangeValue3: React.Dispatch<React.SetStateAction<number>>;
+        rangeValue4: number;
+        setRangeValue4: React.Dispatch<React.SetStateAction<number>>;
+    };
 }
 
-const Header = ( { setBody, sendMessage, networks, unknownNetworks }: Props ) => {
+const Header = ( { setBody, sendMessage, networks, unknownNetworks, range_t }: Props ) => {
     const [ homeBackground,    setHomeBackground    ] = useState("rgba(246, 248, 252, 0)");
     const [ networkBackground, setNetworkBackground ] = useState("rgba(246, 248, 252, 0)");
     const [ settingBackground, setSettingBackground ] = useState("rgba(246, 248, 252, 0)");
@@ -23,7 +33,7 @@ const Header = ( { setBody, sendMessage, networks, unknownNetworks }: Props ) =>
     let icons = [
         {icon: <HouseDoorFill size={50} />, link: <Home    sendMessage={sendMessage}                             />, tag: "#home",    backgroundColor: homeBackground,    setBackgroundColors: setHomeBackground    },
         {icon: <Wifi          size={50} />, link: <Network networks={networks} unknownNetworks={unknownNetworks} />, tag: "#network", backgroundColor: networkBackground, setBackgroundColors: setNetworkBackground },
-        {icon: <GearFill      size={50} />, link: <Setting sendMessage={sendMessage}                             />, tag: "#setting", backgroundColor: settingBackground, setBackgroundColors: setSettingBackground }
+        {icon: <GearFill      size={50} />, link: <Setting sendMessage={sendMessage} range_t={range_t}           />, tag: "#setting", backgroundColor: settingBackground, setBackgroundColors: setSettingBackground }
     ];
 
     useEffect(() => {

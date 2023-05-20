@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 import Header   from "./Header";
 import Network  from "./Network";
+import Setting  from "./Setting";
 
 import './App.css'
 
@@ -12,6 +13,18 @@ const App = () => {
     // Network Component
     const [ networks, setNetworks ] = useState< { ssid: string; }[] >( [] );
     const [ unknownNetworks, setUnknownNetworks ] = useState< { ssid: string; rssi: number; encryption: number; }[] >( [] );
+
+    // Range Component
+    const [rangeValue1, setRangeValue1] = useState(0);
+    const [rangeValue2, setRangeValue2] = useState(0);
+    const [rangeValue3, setRangeValue3] = useState(0);
+    const [rangeValue4, setRangeValue4] = useState(0);
+    const range_t = {
+        rangeValue1: rangeValue1, setRangeValue1: setRangeValue1,
+        rangeValue2: rangeValue2, setRangeValue2: setRangeValue2,
+        rangeValue3: rangeValue3, setRangeValue3: setRangeValue3,
+        rangeValue4: rangeValue4, setRangeValue4: setRangeValue4
+    };
 
     // Websocket
     const ws = useRef< WebSocket | null >( null );
@@ -40,6 +53,16 @@ const App = () => {
                     setUnknownNetworks(data.list);
                 } else if(data.title === 'WiFi save') {
                     setNetworks(data.list);
+                } else if(data.title === 'PID') {
+                    let p_stability = parseInt( ( (data.data.p_stability / 5000) + 0.5 ).toString() );
+                    let d_stability = parseInt( ( (data.data.d_stability / 5000) + 0.5 ).toString() );
+                    let p_speed     = parseInt( ( (data.data.p_speed     / 5000) + 0.5 ).toString() );
+                    let i_speed     = parseInt( ( (data.data.i_speed     / 5000) + 0.5 ).toString() );
+
+                    setRangeValue1( p_stability > 100? 100 : p_stability < -100? -100 : p_stability );
+                    setRangeValue2( d_stability > 100? 100 : d_stability < -100? -100 : d_stability );
+                    setRangeValue3( p_speed     > 100? 100 : p_speed     < -100? -100 : p_speed     );
+                    setRangeValue4( i_speed     > 100? 100 : i_speed     < -100? -100 : i_speed     );
                 }
 
             } catch (error) {
@@ -69,9 +92,19 @@ const App = () => {
         }
     }, [networks, unknownNetworks]);
 
+    useEffect(() => {
+        if(window.location.hash === "#setting") {
+            setBody(<Setting sendMessage={sendMessage} range_t={range_t} />);
+        }
+    }, [rangeValue1, rangeValue2, rangeValue3, rangeValue4]);
+
     return (
         <div className='d-flex flex-column vh-100'>
-            <Header setBody={setBody} sendMessage={sendMessage} networks={networks} unknownNetworks={unknownNetworks} />
+            <Header setBody={setBody} 
+                    sendMessage={sendMessage} 
+                    networks={networks} 
+                    unknownNetworks={unknownNetworks}
+                    range_t={ range_t } />
             <div className="container-fluid h-100">
                 <div className="row align-items-center h-100">
                     <div className="col-lg-3 col-3 d-none d-md-block bg-0"></div>
