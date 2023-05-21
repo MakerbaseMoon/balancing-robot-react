@@ -7,3 +7,38 @@
     background-color: #C2E7FF;
     border-radius: 20px;
 }
+
+.scrollbar {
+    max-height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    
+}
+
+::-webkit-scrollbar-track {
+    background-color: #cdcdcd73;
+    box-shadow: inset 0px 0px 3px #9b9b9b;
+}
+
+  /* 捲軸寬度 */
+.scrollbar::-webkit-scrollbar {
+    overflow: visible;
+    width: 12px;
+}
+
+  /* 捲軸本體(正常) */
+.scrollbar::-webkit-scrollbar-thumb {
+    background: #4eb4b8;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+}
+
+  /* 捲軸本體(游標接觸) */
+.scrollbar::-webkit-scrollbar-thumb:hover {
+    box-shadow: inset 1px 1px 3px rgba(231, 204, 204, 0.35);
+}
+
+  /* 捲軸本體(游標點擊) */
+.scrollbar::-webkit-scrollbar-thumb:active {
+    box-shadow: inset 1px 1px 5px rgba(228, 223, 223, 0.65);
+}
