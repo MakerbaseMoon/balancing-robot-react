@@ -1,7 +1,10 @@
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { useState } from 'react';
+
+import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { Trash3, Clipboard2Pulse, Clipboard2Plus, LockFill, UnlockFill, Wifi, Wifi1, Wifi2 } from 'react-bootstrap-icons';
 
 import './Network.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 type Props = {
     sendMessage: (message: string) => void;
@@ -14,6 +17,11 @@ type Props = {
 const Network = ( { sendMessage, networks_t }: Props ) => {
     const { networks, unknownNetworks } = networks_t;
 
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const addNetwork = (index: number, ssid: string, password: string) => {
         console.log(`addNetwork[${index}]:`, ssid, password);
         sendMessage(JSON.stringify({ [`ssid${index}`]: ssid, [`password${index}`]: password }));
@@ -25,14 +33,17 @@ const Network = ( { sendMessage, networks_t }: Props ) => {
     
     const editNetwork = (index: number) => {
         console.log(`editNetwork[${index}]:`, networks[index]);
+        handleShow();
     }
     
     const newNetwork = (index: number) => {
         console.log(`newNetwork[${index}]:`, unknownNetworks[index]);
+        handleShow();
     }
-
+    
     return (
-        <Container fluid="md" className="container-fluid">
+        <Container fluid="md" className="container-fluid position-relative">
+            <div style={{display: 'none'}} className='fade modal-backdrop show'></div>
             {   
                 networks.length <= 0 ?
                 ["", "", ""].map((item, index) => {
@@ -62,9 +73,9 @@ const Network = ( { sendMessage, networks_t }: Props ) => {
                                 <span className='fs-4'>{network.ssid}</span>
                             </Col>
                             <Col className='col d-grid gap-2 d-md-flex justify-content-md-end'>
-                                <div className='ms-auto'>
-                                    <Button className="btn btn-lg btn-outline-secondary m-2" onClick={ () => { editNetwork(index) } }><Clipboard2Pulse /> 修改 </Button>
-                                    <Button className="btn btn-lg btn-outline-danger m-2"    onClick={ () => {  delNetwork(index) } }><Trash3 /> 刪除 </Button>
+                                <div className='ms-auto' >
+                                    <Button variant="outline-secondary" className="btn btn-lg btn-outline-secondary m-2"  onClick={ () => { editNetwork(index) } }><Clipboard2Pulse /> 修改 </Button>
+                                    <Button variant="outline-danger" className="btn btn-lg btn-outline-danger m-2"    onClick={ () => {  delNetwork(index) } }><Trash3 /> 刪除 </Button>
                                 </div>
                             </Col>
                         </Row> 
@@ -110,6 +121,21 @@ const Network = ( { sendMessage, networks_t }: Props ) => {
                     );
                 })
             }
+            <div style={{display: 'none'}} className='modal-dialog modal-dialog-centered modal-dialog-scrollable'></div>
+            <Modal show={show} onHide={handleClose} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Check
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Container>
     );
 }
