@@ -1,8 +1,6 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 
 import Header   from "./Header";
-import Network  from "./Network";
-import Setting  from "./Setting";
 
 import './App.css'
 
@@ -42,14 +40,14 @@ const App = () => {
     const ws = useRef< WebSocket | null >( null );
 
     // WebSocket send message to ESP32 Server
-    const sendMessage = (message: string) => {
+    const sendMessage = useCallback((message: string) => {
         if (ws.current && ws.current.readyState === WebSocket.OPEN) {
             ws.current.send(message);
         }
-    };
+    }, []);
 
     // Websocket Event
-    const connectWebSocket = () => {
+    const connectWebSocket = useCallback(() => {
         const host: string = window.location.hostname;
         ws.current = new WebSocket(`ws://${host}/ws`);
     
@@ -86,7 +84,7 @@ const App = () => {
             console.log('WebSocket connection closed.');
             setTimeout(connectWebSocket, 2000);
         };
-    };
+    }, []);
     
     useEffect(() => {
         connectWebSocket();
@@ -96,19 +94,7 @@ const App = () => {
                 ws.current.close();
             }
         };
-    });
-
-    useEffect(() => {
-        if(window.location.hash === "#network") {
-            setBody(<Network sendMessage={sendMessage} networks_t={networks_t} />);
-        }
-    }, [networks_t]);
-
-    useEffect(() => {
-        if(window.location.hash === "#setting") {
-            setBody(<Setting sendMessage={sendMessage} range_t={range_t} />);
-        }
-    }, [range_t]);
+    }, [connectWebSocket]);
 
     return (
         <div className='d-flex flex-column vh-100'>

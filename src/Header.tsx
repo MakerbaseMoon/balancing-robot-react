@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 import { HouseDoorFill, Wifi, GearFill } from "react-bootstrap-icons"
 
@@ -32,11 +32,29 @@ const Header = ( { setBody, sendMessage, networks_t, range_t }: Props ) => {
     const [ networkBackground, setNetworkBackground ] = useState("rgba(246, 248, 252, 0)");
     const [ settingBackground, setSettingBackground ] = useState("rgba(246, 248, 252, 0)");
 
-    let icons = [
-        {icon: <HouseDoorFill size={50} />, link: <Home    sendMessage={sendMessage}                         />, tag: "#home",    backgroundColor: homeBackground,    setBackgroundColors: setHomeBackground    },
-        {icon: <Wifi          size={50} />, link: <Network sendMessage={sendMessage} networks_t={networks_t} />, tag: "#network", backgroundColor: networkBackground, setBackgroundColors: setNetworkBackground },
-        {icon: <GearFill      size={50} />, link: <Setting sendMessage={sendMessage} range_t={range_t}       />, tag: "#setting", backgroundColor: settingBackground, setBackgroundColors: setSettingBackground }
-    ];
+    const icons = useMemo(() => [
+        {
+            icon: <HouseDoorFill size={50} />,
+            link: <Home sendMessage={sendMessage} />,
+            tag: "#home",
+            backgroundColor: homeBackground,
+            setBackgroundColors: setHomeBackground,
+        },
+        {
+            icon: <Wifi size={50} />,
+            link: <Network sendMessage={sendMessage} networks_t={networks_t} />,
+            tag: "#network",
+            backgroundColor: networkBackground,
+            setBackgroundColors: setNetworkBackground,
+        },
+        {
+            icon: <GearFill size={50} />,
+            link: <Setting sendMessage={sendMessage} range_t={range_t} />,
+            tag: "#setting",
+            backgroundColor: settingBackground,
+            setBackgroundColors: setSettingBackground,
+        },
+    ], [homeBackground, networkBackground, settingBackground, sendMessage, networks_t, range_t]);
 
     useEffect(() => {
         let isSetHash: boolean = true;
@@ -56,7 +74,7 @@ const Header = ( { setBody, sendMessage, networks_t, range_t }: Props ) => {
             icons[0].setBackgroundColors("rgba(246, 248, 252, 1)");
         }
 
-    });
+    }, [icons, setBody]);
 
     const setBackgroundColors = (index: number) => {
         icons.map((icon, i) => {
