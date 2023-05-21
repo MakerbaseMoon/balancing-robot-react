@@ -4,11 +4,21 @@ import { Trash3, Clipboard2Pulse, Clipboard2Plus, LockFill, UnlockFill, Wifi, Wi
 import './Network.css';
 
 type Props = {
-    networks: {  ssid: string; }[];
-    unknownNetworks: { ssid: string; rssi: number; encryption: number; }[];
+    sendMessage: (message: string) => void;
+    networks_t: {
+        networks: {  ssid: string; }[];
+        unknownNetworks: { ssid: string; rssi: number; encryption: number; }[];
+    }
 }
 
-const Network = ( { networks, unknownNetworks }: Props ) => {
+const Network = ( { sendMessage, networks_t }: Props ) => {
+    const { networks, unknownNetworks } = networks_t;
+
+    const addNetwork = (index: number, ssid: string, password: string) => {
+        console.log(`addNetwork[${index}]:`, ssid, password);
+        sendMessage(JSON.stringify({ [`ssid${index}`]: ssid, [`password${index}`]: password }));
+    }
+
     const delNetwork = (index: number) => {
         console.log(`delNetwork[${index}]:`, networks[index]);
     }

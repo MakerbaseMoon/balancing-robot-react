@@ -13,6 +13,12 @@ const App = () => {
     // Network Component
     const [ networks, setNetworks ] = useState< { ssid: string; }[] >( [] );
     const [ unknownNetworks, setUnknownNetworks ] = useState< { ssid: string; rssi: number; encryption: number; }[] >( [] );
+    const networks_t = useMemo(() => {
+        return {
+            networks: networks,
+            unknownNetworks: unknownNetworks
+        };
+    }, [networks, unknownNetworks]);
 
     // Range Component
     const [rangeValue1, setRangeValue1] = useState(0);
@@ -94,9 +100,9 @@ const App = () => {
 
     useEffect(() => {
         if(window.location.hash === "#network") {
-            setBody(<Network networks={networks} unknownNetworks={unknownNetworks} />);
+            setBody(<Network sendMessage={sendMessage} networks_t={networks_t} />);
         }
-    }, [networks, unknownNetworks]);
+    }, [networks_t]);
 
     useEffect(() => {
         if(window.location.hash === "#setting") {
@@ -108,8 +114,7 @@ const App = () => {
         <div className='d-flex flex-column vh-100'>
             <Header setBody={setBody} 
                     sendMessage={sendMessage} 
-                    networks={networks} 
-                    unknownNetworks={unknownNetworks}
+                    networks_t={networks_t} 
                     range_t={ range_t } />
             <div className="container-fluid h-100">
                 <div className="row align-items-center h-100">
