@@ -14,9 +14,10 @@ const App = () => {
     const networks_t = useMemo(() => {
         return {
             networks: networks,
+            setNetworks: setNetworks,
             unknownNetworks: unknownNetworks
         };
-    }, [networks, unknownNetworks]);
+    }, [networks, setNetworks, unknownNetworks]);
 
     // Range Component
     const [rangeValue1, setRangeValue1] = useState(0);

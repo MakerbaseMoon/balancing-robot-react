@@ -13,6 +13,7 @@ type Props = {
     sendMessage: (message: string) => void;
     networks_t: {
         networks: { ssid: string; }[];
+        setNetworks: React.Dispatch<React.SetStateAction<{ ssid: string; }[]>>;
         unknownNetworks: { ssid: string; rssi: number; encryption: number; }[];
     }
     range_t: {
