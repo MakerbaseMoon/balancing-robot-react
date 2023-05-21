@@ -40,11 +40,13 @@ const Header = ( { setBody, sendMessage, networks, unknownNetworks, range_t }: P
         let isSetHash: boolean = true;
 
         icons.map((icon) => {
-            if(window.location.hash == icon.tag) {
+            if(window.location.hash === icon.tag) {
                 setBody(icon.link);
                 icon.setBackgroundColors("rgba(246, 248, 252, 1)");
                 isSetHash = false;
             }
+
+            return null;
         });
 
         if(isSetHash) {
@@ -52,15 +54,17 @@ const Header = ( { setBody, sendMessage, networks, unknownNetworks, range_t }: P
             icons[0].setBackgroundColors("rgba(246, 248, 252, 1)");
         }
 
-    }, []);
+    });
 
     const setBackgroundColors = (index: number) => {
         icons.map((icon, i) => {
-            if(i == index) {
+            if(i === index) {
                 icon.setBackgroundColors("rgba(246, 248, 252, 1)");
             } else {
                 icon.setBackgroundColors("rgba(246, 248, 252, 0)");
             }
+
+            return null;
         });
     }
 

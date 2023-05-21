@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 
 import Header   from "./Header";
 import Network  from "./Network";
@@ -19,12 +19,18 @@ const App = () => {
     const [rangeValue2, setRangeValue2] = useState(0);
     const [rangeValue3, setRangeValue3] = useState(0);
     const [rangeValue4, setRangeValue4] = useState(0);
-    const range_t = {
-        rangeValue1: rangeValue1, setRangeValue1: setRangeValue1,
-        rangeValue2: rangeValue2, setRangeValue2: setRangeValue2,
-        rangeValue3: rangeValue3, setRangeValue3: setRangeValue3,
-        rangeValue4: rangeValue4, setRangeValue4: setRangeValue4
-    };
+    const range_t = useMemo(() => {
+        return {
+            rangeValue1: rangeValue1,
+            setRangeValue1: setRangeValue1,
+            rangeValue2: rangeValue2,
+            setRangeValue2: setRangeValue2,
+            rangeValue3: rangeValue3,
+            setRangeValue3: setRangeValue3,
+            rangeValue4: rangeValue4,
+            setRangeValue4: setRangeValue4
+        };
+    }, [rangeValue1, setRangeValue1, rangeValue2, setRangeValue2, rangeValue3, setRangeValue3, rangeValue4, setRangeValue4]);
 
     // Websocket
     const ws = useRef< WebSocket | null >( null );
@@ -84,7 +90,7 @@ const App = () => {
                 ws.current.close();
             }
         };
-    }, []);
+    });
 
     useEffect(() => {
         if(window.location.hash === "#network") {
@@ -96,7 +102,7 @@ const App = () => {
         if(window.location.hash === "#setting") {
             setBody(<Setting sendMessage={sendMessage} range_t={range_t} />);
         }
-    }, [rangeValue1, rangeValue2, rangeValue3, rangeValue4]);
+    }, [range_t]);
 
     return (
         <div className='d-flex flex-column vh-100'>
