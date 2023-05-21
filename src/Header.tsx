@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 
 import { HouseDoorFill, Wifi, GearFill } from "react-bootstrap-icons"
 
@@ -56,27 +56,8 @@ const Header = ( { setBody, sendMessage, networks_t, range_t }: Props ) => {
         },
     ], [homeBackground, networkBackground, settingBackground, sendMessage, networks_t, range_t]);
 
-    useEffect(() => {
-        let isSetHash: boolean = true;
-
-        icons.map((icon) => {
-            if(window.location.hash === icon.tag) {
-                setBody(icon.link);
-                icon.setBackgroundColors("rgba(246, 248, 252, 1)");
-                isSetHash = false;
-            }
-
-            return null;
-        });
-
-        if(isSetHash) {
-            setBody(icons[0].link);
-            icons[0].setBackgroundColors("rgba(246, 248, 252, 1)");
-        }
-
-    }, [icons, setBody]);
-
-    const setBackgroundColors = (index: number) => {
+    const setBackgroundColorsFn = useCallback((index: number) => {
+        index = index < 0? index = 0: index > icons.length - 1? icons.length - 1: index;
         icons.map((icon, i) => {
             if(i === index) {
                 icon.setBackgroundColors("rgba(246, 248, 252, 1)");
@@ -86,14 +67,38 @@ const Header = ( { setBody, sendMessage, networks_t, range_t }: Props ) => {
 
             return null;
         });
-    }
+    }, [icons]);
+
+    const initBackgroundColorsFn = useCallback(() => {
+        let isSetHash: boolean = true;
+
+        icons.map((icon, index) => {
+            if(window.location.hash === icon.tag) {
+                setBody(icon.link);
+                setBackgroundColorsFn(index);
+                isSetHash = false;
+            }
+
+            return null;
+        });
+
+        if(isSetHash) {
+            setBody(icons[0].link);
+            setBackgroundColorsFn(0);
+        }
+    }, [icons, setBody, setBackgroundColorsFn]);
+
+    useEffect(() => {
+        initBackgroundColorsFn();
+
+    }, [initBackgroundColorsFn]);
 
     return (
         <div className="py-4 bg-blue">
             <header className="header">
                 <ul className="nav justify-content-center fs-2">
                     {icons.map((icon, index) => (
-                        <li key={index} className="nav-item px-2 mx-3" onClick={() => { setBody(icon.link); setBackgroundColors(index); }} style={{backgroundColor: icon.backgroundColor}} >
+                        <li key={index} className="nav-item px-2 mx-3" onClick={() => { setBody(icon.link); setBackgroundColorsFn(index); }} style={{backgroundColor: icon.backgroundColor}} >
                             <a href={icon.tag} style={{color: 'black'}}>
                                 {icon.icon}
                             </a>
