@@ -10,7 +10,7 @@ import './Header.css'
 
 type Props = {
     setBody: React.Dispatch<React.SetStateAction<JSX.Element | null >>;
-    sendMessage: (message: string) => void;
+    sendMessage: (path: string, key: string, data: string) => void;
     networks_t: {
         networks: { ssid: string; }[];
         setNetworks: React.Dispatch<React.SetStateAction<{ ssid: string; }[]>>;

@@ -7,7 +7,7 @@ import './Network.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 type Props = {
-    sendMessage: (message: string) => void;
+    sendMessage: (path: string, key: string, data: string) => void;
     networks_t: {
         networks: {  ssid: string; }[];
         setNetworks: React.Dispatch<React.SetStateAction<{ ssid: string; }[]>>;
@@ -65,7 +65,7 @@ const Network = ( { sendMessage, networks_t }: Props ) => {
 
     const submitNetwork = (index: number, ssid: string, password: string) => {
         console.log(`addNetwork[${index}]:`, ssid, password);
-        sendMessage(JSON.stringify({ [`ssid${index}`]: ssid, [`password${index}`]: password }));
+        sendMessage(`/network${index}`, ssid, password);
         setNetworks((prevNetworks) => {
             const newNetworks = [...prevNetworks];
             newNetworks[index] = { ssid: ssid };

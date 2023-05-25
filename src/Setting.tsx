@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { Container, Row, Button, Form } from 'react-bootstrap';
 
 type Props = {
-    sendMessage:  (message: string) => void;
+    sendMessage: (path: string, key: string, data: string) => void;
     range_t: {
         rangeValue1: number;
         setRangeValue1: React.Dispatch<React.SetStateAction<number>>;
@@ -64,7 +64,7 @@ const Setting = ( { sendMessage, range_t }: Props ) => {
 
         timerRef.current = setTimeout(() => {
             const value: number = 0.5 + 0.005 * newValue;
-            sendMessage(JSON.stringify({ [event.target.id]: parseFloat(value.toFixed(2)) }));
+            sendMessage('', event.target.id, value.toFixed(2));
         }, 50);
     }
 
