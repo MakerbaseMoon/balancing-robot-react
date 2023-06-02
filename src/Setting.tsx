@@ -1,87 +1,98 @@
-import { useState } from 'react';
-import      axios   from 'axios';
+import { useState, useRef } from 'react';
 
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Container, Row, Button, Form } from 'react-bootstrap';
 
-const Setting = () => {
-    const [ settingInfo, setSettingInfo ] = useState( {
-        mac: "Loading...",
-        ip: "Loading...",
-        ap: "Loading...",
-    });
+type Props = {
+    sendMessage: (path: string, key: string, data: string) => void;
+    range_t: {
+        rangeValue1: number;
+        setRangeValue1: React.Dispatch<React.SetStateAction<number>>;
+        rangeValue2: number;
+        setRangeValue2: React.Dispatch<React.SetStateAction<number>>;
+        rangeValue3: number;
+        setRangeValue3: React.Dispatch<React.SetStateAction<number>>;
+        rangeValue4: number;
+        setRangeValue4: React.Dispatch<React.SetStateAction<number>>;
+    };
+}
 
-    const clickAP = () => {
-        console.log("clickAP");
-        const apSSID = document.getElementById("apSSID") as HTMLInputElement;
-        const apPassword = document.getElementById("apPassword") as HTMLInputElement;
+const Setting = ( { sendMessage, range_t }: Props ) => {
+    const { rangeValue1, setRangeValue1, rangeValue2, setRangeValue2, 
+            rangeValue3, setRangeValue3, rangeValue4, setRangeValue4 } = range_t;
 
-        if( apSSID && apPassword ) {
-            console.log(`AP SSID: ${apSSID.value}, AP Password: ${apPassword.value}`);
+    const [rangeDisable, setRangeDisable] = useState( true );
+
+    const btnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        if(rangeDisable) {
+            event.currentTarget.innerText = 'Lock';
+            event.currentTarget.classList.remove('btn-outline-info');
+            event.currentTarget.classList.add('btn-outline-warning');
+
+        } else{
+            event.currentTarget.innerText = 'unLock';
+            event.currentTarget.classList.remove('btn-outline-warning');
+            event.currentTarget.classList.add('btn-outline-info');
+            // sendMessage('Save');
         }
+
+        setRangeDisable(!rangeDisable);
     }
 
-    const settingList = [
-        {
-            list: [
-                { id: "mac", name: "mac", type: "text", placeholder: settingInfo.mac, text: "MAC Address", disabled: true },
-                { id: "ip", name: "ip", type: "text", placeholder: settingInfo.ip, text: "IP Address", disabled: true },
-            ],
-            button: null,
-        },
-        {
-            list: [
-                { id: "apSSID", name: "WiFi AP SSID", type: "text", placeholder: settingInfo.ap, text: "WiFi AP SSID", disabled: false },
-                { id: "apPassword", name: "WiFi AP Password", type: "password", placeholder: null, text: "WiFi AP Password", disabled: false },
-            ],
-            button: { click: clickAP, text: "儲存" },
-        },
+    const rangeList = [
+        { id: 'fader3', text: 'P-Stability', value: rangeValue1 },
+        { id: 'fader4', text: 'D-Stability', value: rangeValue2 },
+        { id: 'fader5', text: 'P-Speed',     value: rangeValue3 },
+        { id: 'fader6', text: 'I-Speed',     value: rangeValue4 },
     ];
 
-    const getSettingInfo = async() => {
-        try {
-            const res = await axios.post('/setting/info');
-            console.log(res.data);
-            setSettingInfo(res.data);
-        } catch(error) {
-            console.log(error);
+    const timerRef = useRef(undefined as NodeJS.Timeout | undefined);
+
+    const rangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = parseInt(event.target.value);
+
+        if(event.target.id === 'fader3') {
+            setRangeValue1(newValue);
+        } else if(event.target.id === 'fader4') {
+            setRangeValue2(newValue);
+        } else if(event.target.id === 'fader5') {
+            setRangeValue3(newValue);
+        } else if(event.target.id === 'fader6') {
+            setRangeValue4(newValue);
         }
+
+        clearTimeout(timerRef.current);
+
+        timerRef.current = setTimeout(() => {
+            const value: number = 0.5 + 0.005 * newValue;
+            sendMessage('', event.target.id, value.toFixed(2));
+        }, 50);
     }
 
     return (
-        <Container className='container'>
-            {
-                settingList.map((setting, index) => {
-                    return (
-                        <Row key={index} className='row my-5'>
-                            <Col className='col d-grid gap-2'>
-                                <Form>
-                                    {
-                                        setting.list.map((item, index) => {
-                                            return (
-                                                <Form.Group key={index} className="mb-3" controlId={item.id}>
-                                                    <Form.Label className="form-label">{item.text}</Form.Label>
-                                                    <Form.Control   className="form-control" 
-                                                                    type={item.type} 
-                                                                    placeholder={ (item.placeholder === null)? '' : item.placeholder } 
-                                                                    disabled={item.disabled} />
-                                                    <Form.Text className="form-text">{item.text}</Form.Text>
-                                                </Form.Group>
-                                            );
-                                        })
-                                    }
-                                </Form>
-                                {
-                                    (setting.button === null) ? null : (
-                                        <Button className='btn btn-outline-warning' onClick={setting.button.click}>
-                                            {setting.button.text}
-                                        </Button>
-                                    ) 
-                                }
-                            </Col>
-                        </Row>
-                    );
-                })
-            }
+        <Container fluid="md" className="container-fluid">
+            <Row className='row my-5'>
+                <Button className='btn btn-lg btn-outline-info' onClick={btnClick}>unLock</Button>
+            </Row>
+            <Row className='row my-5'>
+                {
+                    rangeList.map((range) => {
+                        return (
+                            <Row className='row my-3' key={range.id}>
+                                <Form.Label className='form-label'>
+                                    {range.text} {range.value > 0? '+' : ''}{range.value} %
+                                </Form.Label>
+                                <Form.Range id        = { range.id }
+                                            className = 'form-range'
+                                            min       = {         -100 } 
+                                            max       = {          100 }
+                                            disabled  = { rangeDisable }
+                                            value     = { range.value  }
+                                            onChange  = { rangeChange  } />
+                            </Row>
+                        );
+                    })
+                }
+            </Row>
         </Container>
     );
 }

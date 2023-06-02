@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Start Server",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "yarn",
+            "runtimeArgs": [
+                "start"
+            ],
+                "cwd": "${workspaceFolder}",
+                "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "name": "Build Production",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "yarn",
+            "runtimeArgs": [
+                "build"
+            ],
+                "cwd": "${workspaceFolder}",
+                "skipFiles": [
+                "<node_internals>/**"
+            ]
+        }
+    ]
+}
