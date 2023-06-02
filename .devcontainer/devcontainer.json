@@ -13,7 +13,10 @@
             "extensions": [
                 "donjayamanne.githistory",
                 "streetsidesoftware.code-spell-checker",
-				"eamodio.gitlens"
+				"eamodio.gitlens",
+				"ritwickdey.LiveServer",
+				"oderwat.indent-rainbow",
+				"dbaeumer.vscode-eslint"
             ]
 		}
 	}
