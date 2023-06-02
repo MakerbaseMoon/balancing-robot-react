@@ -39,7 +39,7 @@
     "webpack-cli": "^5.1.1"
   },
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --host 0.0.0.0",
     "build": "webpack --mode=production"
   },
   "eslintConfig": {
